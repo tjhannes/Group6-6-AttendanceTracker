@@ -21,6 +21,7 @@
 
 <body>
 
+<div class="main">
 <%
     String guestbookName = request.getParameter("guestbookName");
     if (guestbookName == null) {
@@ -33,17 +34,20 @@
         pageContext.setAttribute("user", user);
 %>
 
-<p>Hello, ${fn:escapeXml(user.nickname)}! (You can
-    <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
+<h3>Hello ${fn:escapeXml(user.nickname)}!</h3>
+    <p align="right"><a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out</a></p>
 <%
     } else {
 %>
-<p>Hello!
-    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-    to include your name with greetings you post.</p>
+<h3>Hello!</h3>
+<p>Please 
+    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">sign in</a>
+    to register your attendance.</p>
 <%
     }
 %>
+
+
 
 <%-- //[START datastore]--%>
 <%
@@ -62,10 +66,27 @@
 
     if (greetings.isEmpty()) {
 %>
-<p>Guestbook '${fn:escapeXml(guestbookName)}' has no messages.</p>
+<p>Please register for one of the following tutor groups:</p>
+<form action="/guestbook.jsp" method="get">
+  <select name="Group">
+  <option value="group1">Group 1</option>
+  <option value="group2">Group 2</option>
+  <option value="group3">Group 3</option>
+  <option value="group4">Group 4</option>
+  <option value="group5">Group 5</option>
+  <option value="group6">Group 6</option>
+</select>
+  <input type="submit">
+</form>
 <%
     } else {
 %>
+<p>You are currently registered to Group 6</p>
+<table><tr><th>Group 6</th></tr>
+<tr><th>Time</th><th>Wednesdays, 12pm - 2pm</th></tr>
+<tr><th>Room</th><th>01.011.018</th></tr>
+<tr><th>Tutor</th><th>Klaus</th></tr></table>
+
 <p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p>
 <%
       // Look at all of our greetings
@@ -90,16 +111,28 @@
     }
 %>
 
+
+
+
+
+
+
+<%-- 
 <form action="/sign" method="post">
     <div><textarea name="content" rows="3" cols="60"></textarea></div>
     <div><input type="submit" value="Post Greeting"/></div>
     <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
 </form>
+--%>
 <%-- //[END datastore]--%>
+<%--
 <form action="/guestbook.jsp" method="get">
     <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
     <div><input type="submit" value="Switch Guestbook"/></div>
 </form>
+--%>
+
+</div>
 
 </body>
 </html>

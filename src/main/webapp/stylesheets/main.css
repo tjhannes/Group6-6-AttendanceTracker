@@ -1,4 +1,17 @@
 body {
     font-family: Verdana, Helvetica, sans-serif;
-    background-color: #FFFFCC;
+    background-color: #FFF;
+	width:50%;
+}
+.main {
+	background-color:#CCC;
+	width:60%;
+	margin:0 auto;
+	padding: 10px;
+}
+table {
+	text-align:left;
+}
+th {
+	font-weight:normal;
 }
