@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 
 /**
@@ -46,25 +47,23 @@ public class SignGuestbookServlet extends HttpServlet {
 
   // Process the http POST of the form
   @Override
-  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    Greeting greeting;
+  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException 
+  {
+    Student student;
 
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
 
     String guestbookName = req.getParameter("guestbookName");
-    String content = req.getParameter("content");
-    if (user != null) {
-      greeting = new Greeting(guestbookName, content, user.getUserId(), user.getEmail());
-    } else {
-      greeting = new Greeting(guestbookName, content);
+    int group = Integer.parseInt(req.getParameter("group"));
+    if (user != null) 
+    {
+    	student = new Student(group, user.getUserId(), user.getEmail());
+    	ObjectifyService.ofy().save().entity(student).now();
     }
-
-    // Use Objectify to save the greeting and now() is used to make the call synchronously as we
-    // will immediately get a new page using redirect and we want the data to be present.
-    ObjectifyService.ofy().save().entity(greeting).now();
-
-    resp.sendRedirect("/guestbook.jsp?guestbookName=" + guestbookName);
+    
+    //ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Student.class).keys());
+    resp.sendRedirect("/guestbook.jsp");
   }
 }
 //[END all]

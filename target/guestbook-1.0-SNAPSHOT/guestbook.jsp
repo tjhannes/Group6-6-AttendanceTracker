@@ -5,7 +5,7 @@
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 
 <%-- //[START imports]--%>
-<%@ page import="com.example.guestbook.Greeting" %>
+<%@ page import="com.example.guestbook.Student" %>
 <%@ page import="com.example.guestbook.Guestbook" %>
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
@@ -22,115 +22,97 @@
 <body>
 
 <div class="main">
+
 <%
-    String guestbookName = request.getParameter("guestbookName");
-    if (guestbookName == null) {
-        guestbookName = "default";
-    }
-    pageContext.setAttribute("guestbookName", guestbookName);
+	String[][] tutorialInfo =  {{"Mondays, 9:00 - 11:00", "01.011.018", "Someone"},
+			  					{"Mondays, 13:45 - 15:15", "01.011.018", "Someone"},
+			  					{"Mondays, 15:15 - 16:45", "01.011.018", "Someone"},
+			  					{"Tuesdays, 15:00 - 17:00", "01.011.018", "Someone"},
+			  					{"Wednesdays, 10:00 - 12:00", "00.011.038", "Someone"},
+			  					{"Wednesdays, 12:00 - 14:00", "01.011.018", "Someone"}};
+    
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
-    if (user != null) {
+    if (user != null) 
+    {
         pageContext.setAttribute("user", user);
 %>
-
-<h3>Hello ${fn:escapeXml(user.nickname)}!</h3>
-    <p align="right"><a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out</a></p>
+		<h3>Hello ${fn:escapeXml(user.nickname)}!</h3>
+		<p align="right"><a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out</a></p>
 <%
-    } else {
+        List<Student> students = ObjectifyService.ofy()
+    	          .load()
+    	          .type(Student.class)
+    	          .list();
+    	boolean isRegistered = false;
+		
+    	for (Student student : students) 
+    	{
+            if (user.getUserId().equals(student.student_id)) 
+            {
+            	isRegistered = true;
+            	if(student.group == 0)
+            	{
 %>
+					<p>Please register for one of the following tutor groups:</p>
+					<form action="/sign" method="post">
+						<select name="group">
+					  		<option value="1">Group 1</option>
+					  		<option value="2">Group 2</option>
+					  		<option value="3">Group 3</option>
+					  		<option value="4">Group 4</option>
+					  		<option value="5">Group 5</option>
+					  		<option value="6">Group 6</option>
+						</select>
+						<input type="submit" name="group">
+					</form>
+<%
+            	}
+            	else
+            	{
+%>
+					<p>You are currently registered to Group <%= student.group %></p>
+					<table>
+						<tr><th>Time</th><th> <%= tutorialInfo[student.group-1][0] %></th></tr>
+						<tr><th>Room</th><th> <%= tutorialInfo[student.group-1][1] %></th></tr>
+						<tr><th>Tutor</th><th> <%= tutorialInfo[student.group-1][2] %></th></tr>
+					</table>
+<%
+            	}
+            	break;
+            }
+    	}
+    	
+    	if(!isRegistered)
+    	{
+%>
+			<p>Please register for one of the following tutor groups:</p>
+			<form action="/sign" method="post">
+		  		<select name="group">
+			    	<option value="1">Group 1</option>
+			    	<option value="2">Group 2</option>
+			    	<option value="3">Group 3</option>
+			    	<option value="4">Group 4</option>
+			    	<option value="5">Group 5</option>
+			    	<option value="6">Group 6</option>
+				</select>
+		  		<input type="submit" name="group">
+			</form>
+<%
+    	}
+    } 
+    else 
+    {
+%>
+
 <h3>Hello!</h3>
 <p>Please 
     <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">sign in</a>
     to register your attendance.</p>
+    
 <%
     }
 %>
-
-
-
-<%-- //[START datastore]--%>
-<%
-    // Create the correct Ancestor key
-      Key<Guestbook> theBook = Key.create(Guestbook.class, guestbookName);
-
-    // Run an ancestor query to ensure we see the most up-to-date
-    // view of the Greetings belonging to the selected Guestbook.
-      List<Greeting> greetings = ObjectifyService.ofy()
-          .load()
-          .type(Greeting.class) // We want only Greetings
-          .ancestor(theBook)    // Anyone in this book
-          .order("-date")       // Most recent first - date is indexed.
-          .limit(5)             // Only show 5 of them.
-          .list();
-
-    if (greetings.isEmpty()) {
-%>
-<p>Please register for one of the following tutor groups:</p>
-<form action="/guestbook.jsp" method="get">
-  <select name="Group">
-  <option value="group1">Group 1</option>
-  <option value="group2">Group 2</option>
-  <option value="group3">Group 3</option>
-  <option value="group4">Group 4</option>
-  <option value="group5">Group 5</option>
-  <option value="group6">Group 6</option>
-</select>
-  <input type="submit">
-</form>
-<%
-    } else {
-%>
-<p>You are currently registered to Group 6</p>
-<table><tr><th>Group 6</th></tr>
-<tr><th>Time</th><th>Wednesdays, 12pm - 2pm</th></tr>
-<tr><th>Room</th><th>01.011.018</th></tr>
-<tr><th>Tutor</th><th>Klaus</th></tr></table>
-
-<p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p>
-<%
-      // Look at all of our greetings
-        for (Greeting greeting : greetings) {
-            pageContext.setAttribute("greeting_content", greeting.content);
-            String author;
-            if (greeting.author_email == null) {
-                author = "An anonymous person";
-            } else {
-                author = greeting.author_email;
-                String author_id = greeting.author_id;
-                if (user != null && user.getUserId().equals(author_id)) {
-                    author += " (You)";
-                }
-            }
-            pageContext.setAttribute("greeting_user", author);
-%>
-<p><b>${fn:escapeXml(greeting_user)}</b> wrote:</p>
-<blockquote>${fn:escapeXml(greeting_content)}</blockquote>
-<%
-        }
-    }
-%>
-
-
-
-
-
-
-
-<%-- 
-<form action="/sign" method="post">
-    <div><textarea name="content" rows="3" cols="60"></textarea></div>
-    <div><input type="submit" value="Post Greeting"/></div>
-    <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
-</form>
---%>
-<%-- //[END datastore]--%>
-<%--
-<form action="/guestbook.jsp" method="get">
-    <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
-    <div><input type="submit" value="Switch Guestbook"/></div>
-</form>
---%>
 
 </div>
 
