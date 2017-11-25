@@ -23,10 +23,9 @@ import java.util.Date;
 @Entity
 public class Student {
   @Parent Key<Guestbook> theClass;
-  @Id public Long id;
 
   public String student_email;
-  public String student_id;
+  @Id public String student_id;
   public int group;
   @Index public Date date;
   
@@ -44,7 +43,7 @@ public class Student {
   public Student(int group) 
   {
     this();
-    theClass = Key.create(Guestbook.class, "attendance");
+    theClass = Key.create(Guestbook.class, "student");
     this.group = group;
   }
 
