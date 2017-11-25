@@ -16,8 +16,6 @@
 //[START all]
 package com.example.guestbook;
 
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
 import javax.servlet.ServletContextListener;
@@ -33,6 +31,7 @@ public class OfyHelper implements ServletContextListener {
     // request.
     ObjectifyService.register(Guestbook.class);
     ObjectifyService.register(Student.class);
+    ObjectifyService.register(Attendance.class);
   }
 
   public void contextDestroyed(ServletContextEvent event) {

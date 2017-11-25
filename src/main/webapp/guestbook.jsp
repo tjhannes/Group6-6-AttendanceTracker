@@ -45,6 +45,9 @@
     	          .type(Student.class)
     	          .list();
     	boolean isRegistered = false;
+%>
+	
+<%
 		
     	for (Student student : students) 
     	{
@@ -71,12 +74,59 @@
             	else
             	{
 %>
+					<p>Student ID: <%= student.student_id%></p>
 					<p>You are currently registered to Group <%= student.group %></p>
 					<table>
 						<tr><th>Time</th><th> <%= tutorialInfo[student.group-1][0] %></th></tr>
 						<tr><th>Room</th><th> <%= tutorialInfo[student.group-1][1] %></th></tr>
 						<tr><th>Tutor</th><th> <%= tutorialInfo[student.group-1][2] %></th></tr>
+						<tr></tr>
 					</table>
+					
+					<p>Take Attendance</p>
+					<form action="/attendance/take" method="post">
+						<table>
+							<tr><th>Student ID</th><th><input type="text" name="student_id"></th> </tr>
+							<tr><th>Group ID</th><th><input type="text" name="group_id"></th> </tr>
+							<tr><th>Week ID</th><th><input type="text" name="week_id"></th> </tr>
+							<tr><th></th></tr>
+						</table>
+						<input type="submit" name="take_attendance">
+					</form>
+					
+					<p>Show Attendances</p>
+					<form action="/attendance/list" method="get">
+						<table>
+							<tr>
+								<th>Group ID</th>
+								<th>
+									<select name="show_group_id">
+								  		<option value="1">Group 1</option>
+								  		<option value="2">Group 2</option>
+								  		<option value="3">Group 3</option>
+								  		<option value="4">Group 4</option>
+								  		<option value="5">Group 5</option>
+								  		<option value="6">Group 6</option>
+									</select>
+								</th> 
+							</tr>
+							<tr>
+								<th>Count</th>
+								<th>
+									<select name="show_count">
+								  		<option value="0">All</option>
+								  		<option value="5">5</option>
+								  		<option value="10">10</option>
+								  		<option value="15">15</option>
+								  		<option value="25">25</option>
+								  		<option value="50">50</option>
+									</select>
+								</th> 
+							</tr>
+							<tr><th></th></tr>
+						</table>
+						<input type="submit" name="show_attendances">
+					</form>
 <%
             	}
             	break;

@@ -4,6 +4,21 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 <!-- [START standard_mappings] -->
+	<servlet>
+        <servlet-name>RestletServlet</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+        <init-param>
+            <param-name>org.restlet.application</param-name>
+            <param-value>com.example.guestbook.AttendanceApplication</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- Catch all requests -->
+    <servlet-mapping>
+        <servlet-name>RestletServlet</servlet-name>
+        <url-pattern>/attendance/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
       <servlet-name>sign</servlet-name>
       <servlet-class>com.example.guestbook.SignGuestbookServlet</servlet-class>

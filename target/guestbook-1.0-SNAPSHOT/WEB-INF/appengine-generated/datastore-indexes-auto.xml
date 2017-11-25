@@ -1,9 +1,15 @@
-<!-- Indices written at Thu, 23 Nov 2017 11:19:49 CET -->
+<!-- Indices written at Sat, 25 Nov 2017 12:06:44 CET -->
 
 <datastore-indexes>
 
-    <!-- Used 36 times in query history -->
-    <datastore-index kind="Student" ancestor="true" source="auto">
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Attendance" ancestor="true" source="auto">
+        <property name="date" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 3 times in query history -->
+    <datastore-index kind="Attendance" ancestor="true" source="auto">
+        <property name="tutorial_group_id" direction="asc"/>
         <property name="date" direction="desc"/>
     </datastore-index>
 

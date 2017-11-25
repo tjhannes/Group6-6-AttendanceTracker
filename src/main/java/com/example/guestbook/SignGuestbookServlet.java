@@ -17,24 +17,17 @@
 //[START all]
 package com.example.guestbook;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.googlecode.objectify.ObjectifyService;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.googlecode.objectify.LoadResult;
-import com.googlecode.objectify.ObjectifyService;
 
 /**
  * Form Handling Servlet
@@ -53,7 +46,7 @@ public class SignGuestbookServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
-
+    
     int group = Integer.parseInt(req.getParameter("group"));
     if (user != null) 
     {
