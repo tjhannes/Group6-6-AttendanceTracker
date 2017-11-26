@@ -6,13 +6,13 @@ Shows all saved attendances
 
 **Parameters:**
 
- - show count
+ - show_count
 
 Limits the number of attendances shown, not having this parameter or having it as 0 will show all attendances
 
  - show_group_id
 
-Filters the attendances, so that attendances only with the given group id will be shown
+Filters the attendances, so that attendances only with the chosen group id will be shown
 
 Example
 

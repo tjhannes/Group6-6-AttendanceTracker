@@ -26,7 +26,7 @@ public class Student {
 
   public String student_email;
   @Id public String student_id;
-  public int group;
+  public int group_id;
   @Index public Date date;
   
   /**
@@ -40,19 +40,19 @@ public class Student {
   /**
    * A convenience constructor
    **/
-  public Student(int group) 
+  public Student(int group_id) 
   {
     this();
     theClass = Key.create(Guestbook.class, "student");
-    this.group = group;
+    this.group_id = group_id;
   }
 
   /**
    * Takes all important fields
    **/
-  public Student(int group, String id, String email) 
+  public Student(int group_id, String id, String email) 
   {
-    this(group);
+    this(group_id);
     student_email = email;
     student_id = id;
   }

@@ -24,12 +24,12 @@
 <div class="main">
 
 <%
-	String[][] tutorialInfo =  {{"Mondays, 9:00 - 11:00", "01.011.018", "Someone"},
-			  					{"Mondays, 13:45 - 15:15", "01.011.018", "Someone"},
-			  					{"Mondays, 15:15 - 16:45", "01.011.018", "Someone"},
-			  					{"Tuesdays, 15:00 - 17:00", "01.011.018", "Someone"},
-			  					{"Wednesdays, 10:00 - 12:00", "00.011.038", "Someone"},
-			  					{"Wednesdays, 12:00 - 14:00", "01.011.018", "Someone"}};
+	String[][] tutorialInfo =  {{"Mondays, 9:00 - 11:00", "01.011.018", "Ana"},
+			  					{"Mondays, 13:45 - 15:15", "01.011.018", "Sebastian"},
+			  					{"Mondays, 15:15 - 16:45", "01.011.018", "Sebastian"},
+			  					{"Tuesdays, 15:00 - 17:00", "01.011.018", "Ehsan"},
+			  					{"Wednesdays, 10:00 - 12:00", "00.011.038", "Mohsen"},
+			  					{"Wednesdays, 12:00 - 14:00", "01.011.018", "Saahil"}};
     
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();
@@ -46,7 +46,7 @@
 		.parent(Key.create(Guestbook.class, "student"))
 		.id(user.getUserId()).now();
 		
-		if(userStudent == null || userStudent.group == 0)
+		if(userStudent == null || userStudent.group_id == 0)
 		{
 %>
 			<p>Please register for one of the following tutor groups:</p>
@@ -67,11 +67,11 @@
 		{
 %>
 			<p>Student ID: <%= userStudent.student_id%></p>
-			<p>You are currently registered to Group <%= userStudent.group %></p>
+			<p>You are currently registered to Group <%= userStudent.group_id %></p>
 			<table>
-				<tr><th>Time</th><th> <%= tutorialInfo[userStudent.group-1][0] %></th></tr>
-				<tr><th>Room</th><th> <%= tutorialInfo[userStudent.group-1][1] %></th></tr>
-				<tr><th>Tutor</th><th> <%= tutorialInfo[userStudent.group-1][2] %></th></tr>
+				<tr><th>Time</th><th> <%= tutorialInfo[userStudent.group_id-1][0] %></th></tr>
+				<tr><th>Room</th><th> <%= tutorialInfo[userStudent.group_id-1][1] %></th></tr>
+				<tr><th>Tutor</th><th> <%= tutorialInfo[userStudent.group_id-1][2] %></th></tr>
 				<tr></tr>
 			</table>
 				
