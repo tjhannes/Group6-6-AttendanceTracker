@@ -28,6 +28,7 @@ public class Student {
   @Id public String student_id;
   public int group_id;
   @Index public Date date;
+  public String[] attendanceTokens;
   
   /**
    * Simple constructor just sets the date
@@ -45,6 +46,8 @@ public class Student {
     this();
     theClass = Key.create(Guestbook.class, "student");
     this.group_id = group_id;
+    
+    
   }
 
   /**
@@ -55,6 +58,30 @@ public class Student {
     this(group_id);
     student_email = email;
     student_id = id;
+  }
+  
+  public void setAttendanceTokens()
+  {
+	  RandomStringGenerator stringGen = new RandomStringGenerator();
+	  attendanceTokens = new String[13];
+	  for(int i=0;i<13;i++)
+	  {
+		  attendanceTokens[i] = stringGen.nextString();
+		  for(int j = 0; j < i; j++)
+		  {
+			  if(j==i)
+				  continue;
+			  if(attendanceTokens[i].compareTo(attendanceTokens[j]) == 0)
+			  {
+				  attendanceTokens[i] = stringGen.nextString();
+				  j=0;
+			  }
+		  }
+	  }
+	  for(int i=0;i<13;i++)
+	  {
+		  attendanceTokens[i] += this.student_id;
+	  }
   }
 
 }

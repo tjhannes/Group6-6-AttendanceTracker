@@ -52,6 +52,7 @@ public class SignGuestbookServlet extends HttpServlet {
     if (user != null) 
     {
     	student = new Student(group, user.getUserId(), user.getEmail());
+    	student.setAttendanceTokens();
     	ObjectifyService.ofy().save().entity(student).now();
     }
     

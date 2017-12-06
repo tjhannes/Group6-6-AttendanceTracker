@@ -67,6 +67,7 @@
 		{
 %>
 			<p>Student ID: <%= userStudent.student_id%></p>
+			
 			<p>You are currently registered to Group <%= userStudent.group_id %></p>
 			<table>
 				<tr><th>Time</th><th> <%= tutorialInfo[userStudent.group_id-1][0] %></th></tr>
