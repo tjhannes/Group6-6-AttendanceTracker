@@ -126,7 +126,7 @@ public class StudentAttendanceResource extends ServerResource
 				attendanceList = ObjectifyService.ofy()
 			              .load()
 			              .type(Attendance.class)
-			              .ancestor(Key.create(Guestbook.class, "attendance"))
+			              .ancestor(Key.create(Attendance.class, "attendance"))
 			              .list();
 				
 				StringBuilder sb = new StringBuilder();
