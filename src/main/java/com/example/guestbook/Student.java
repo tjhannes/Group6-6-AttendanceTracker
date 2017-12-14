@@ -43,11 +43,9 @@ public class Student {
    **/
   public Student(int group_id) 
   {
-    this();
-    theClass = Key.create(Guestbook.class, "student");
-    this.group_id = group_id;
-    
-    
+	  this();
+	  theClass = Key.create(Guestbook.class, "student");
+	  this.group_id = group_id;
   }
 
   /**
@@ -80,7 +78,7 @@ public class Student {
 	  }
 	  for(int i=0;i<13;i++)
 	  {
-		  attendanceTokens[i] += this.student_id;
+		  attendanceTokens[i] = i + "#" + this.student_id + "#" + attendanceTokens[i];
 	  }
   }
 

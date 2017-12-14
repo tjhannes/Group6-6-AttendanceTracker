@@ -67,6 +67,7 @@
 		{
 %>
 			<p>Student ID: <%= userStudent.student_id%></p>
+			
 			<p>You are currently registered to Group <%= userStudent.group_id %></p>
 			<table>
 				<tr><th>Time</th><th> <%= tutorialInfo[userStudent.group_id-1][0] %></th></tr>
@@ -78,6 +79,7 @@
 			<p>Take Attendance</p>
 			<form action="/attendance/take" method="post">
 				<table>
+					<tr><th>Tutor Code</th><th><input type="password" name="tutor_code"></th> </tr>
 					<tr><th>Student ID</th><th><input type="text" name="student_id"></th> </tr>
 					<tr><th>Group ID</th><th><input type="text" name="group_id"></th> </tr>
 					<tr><th>Week ID</th><th><input type="text" name="week_id"></th> </tr>

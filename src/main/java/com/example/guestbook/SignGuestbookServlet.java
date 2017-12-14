@@ -47,7 +47,7 @@ public class SignGuestbookServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     User user = userService.getCurrentUser();  // Find out who the user is.
-    
+
     int group = Integer.parseInt(req.getParameter("group"));
     if (user != null) 
     {

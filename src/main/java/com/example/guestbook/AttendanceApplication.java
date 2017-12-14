@@ -20,6 +20,7 @@ public class AttendanceApplication extends Application {
         // Attach the handlers to the root router
         router.attach("/take", AttendanceResource.class);
         router.attach("/list", AttendanceResource.class);
+        router.attach("/student", StudentAttendanceResource.class);
 
         return router;
     }
