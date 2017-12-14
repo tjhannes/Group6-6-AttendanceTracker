@@ -1,4 +1,0 @@
-#Tue Dec 12 03:56:20 CET 2017
-base.0=C\:\\Users\\Perseus-PC\\AndroidStudioProjects\\AttendanceTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\6
-path.0=classes.dex
-renamed.0=classes.dex
