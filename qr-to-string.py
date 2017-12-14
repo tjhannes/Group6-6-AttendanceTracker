@@ -55,7 +55,7 @@ def scan():
     #print(result)
     data = urllib.parse.urlencode({'d' : result})
     data = data.encode('ascii')
-    url = "http://jovial-acronym-186111.appspot.com/attendance/take"
+    url = "http://attendancetracker-group66.appspot.com/attendance/take"
     with urllib.request.urlopen(url , data) as h:
         postMsg = h.read().decode('utf-8')
         #print(postMsg)
