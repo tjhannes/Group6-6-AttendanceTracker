@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #-*- coding: UTF-8 -*-
-
 import os
 import signal
 import subprocess
@@ -11,9 +10,13 @@ import urllib.parse
 import xml.etree.ElementTree as EL                                              
 import time  
 
+token = [0,0,0,0]
+#hold = True
+pw = False
+
 
 def lesen():
-    zbarcam=subprocess.Popen("zbarcam --raw --nodisplay /dev/video2", stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+    zbarcam=subprocess.Popen("zbarcam --raw --nodisplay /dev/video0", stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
     print("zbarcam erfolgreich gestartet...")
     while True:
         qrcodetext=zbarcam.stdout.readline()
@@ -35,14 +38,58 @@ def signal_handler(signal, frame):
 
 
 def update_pin_text(event):
-    event.chip.lcd.clear()
-    event.chip.lcd.set_cursor(0, 0) 
-    #if event.pin_num ==  0:
-    #event.chip.lcd.write("Ready to scan!")   
-    scan()
+    global pw
+    global token
+    if pw == True:
+        event.chip.lcd.clear()
+        event.chip.lcd.set_cursor(0, 0) 
+        #if event.pin_num ==  0:
+        #event.chip.lcd.write("Ready to scan!")   
+        scan()
+    else:
+        event.chip.lcd.clear()
+        event.chip.lcd.set_cursor(0, 0) 
+        if event.pin_num ==  0:
+            token[0] = token[0]+1
+            if token[0]>9:
+                token[0] = 0
+            event.chip.lcd.write("Enter PIN")
+            event.chip.lcd.set_cursor(0, 1) 
+            event.chip.lcd.write(str(token))
+        if event.pin_num ==  1:
+            token[1] = token[1]+1
+            if token[1]>9:
+                token[1] = 0
+            event.chip.lcd.write("Enter PIN")
+            event.chip.lcd.set_cursor(0, 1) 
+            event.chip.lcd.write(str(token))
+
+        if event.pin_num ==  2:
+            token[2] = token[2]+1
+            if token[2]>9:
+                token[2] = 0
+            event.chip.lcd.write("Enter PIN")
+            event.chip.lcd.set_cursor(0, 1) 
+            event.chip.lcd.write(str(token))
+
+        if event.pin_num ==  3:
+            token[3] = token[3]+1
+            if token[3]>9:
+                token[3] = 0
+            event.chip.lcd.write("Enter PIN")
+            event.chip.lcd.set_cursor(0, 1) 
+            event.chip.lcd.write(str(token))
+        if event.pin_num ==  4:
+            pw = True
+            return str(token)
+
+
+
+
 
     
 def scan():
+    global token
     cad = pifacecad.PiFaceCAD()
     cad.lcd.backlight_on()
     cad.lcd.clear()
@@ -53,9 +100,13 @@ def scan():
     cad.lcd.set_cursor(0,0)
     cad.lcd.write("Waiting...")
     #print(result)
-    data = urllib.parse.urlencode({'d' : result})
+    data = urllib.parse.urlencode({'data' : result , 'token' : token})
     data = data.encode('ascii')
+<<<<<<< HEAD
+    url = "http://jovial-acronym-186111.appspot.com/attendance/student"
+=======
     url = "http://attendancetracker-group66.appspot.com/attendance/take"
+>>>>>>> e0ed9eb21d0cd325fe026e2f238b6eeab81af7d4
     with urllib.request.urlopen(url , data) as h:
         postMsg = h.read().decode('utf-8')
         #print(postMsg)
@@ -65,16 +116,33 @@ def scan():
         cad.lcd.set_cursor(0,1)
         cad.lcd.write("Press any Button")
 
+
+
+def authenticate(cad):    
+    #listener = pifacecad.SwitchEventListener(chip=cad)  
+    #for i in range(8):
+    #    listener.register(i, pifacecad.IODIR_FALLING_EDGE, update_auth) 
+    #listener.activate() 
+    cad.lcd.clear()    
+    cad.lcd.set_cursor(0,0)
+    cad.lcd.write("Enter PIN") 
+    cad.lcd.set_cursor(0,1)
+    cad.lcd.write(str(token)) 
+
 def main():    
     signal.signal(signal.SIGINT, signal_handler)
     cad = pifacecad.PiFaceCAD()
     cad.lcd.backlight_on()
-    cad.lcd.clear()
-    cad.lcd.set_cursor(0,1)
+    cad.lcd.clear()    
     listener = pifacecad.SwitchEventListener(chip=cad)  
     for i in range(8):
         listener.register(i, pifacecad.IODIR_FALLING_EDGE, update_pin_text) 
     listener.activate() 
+    token = authenticate(cad)
+    while(pw == False):
+        time.sleep(1)
+    cad.lcd.clear() 
+    cad.lcd.set_cursor(0,1)
     cad.lcd.write("Press any Button")
 
 
