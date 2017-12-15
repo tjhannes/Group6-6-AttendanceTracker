@@ -102,7 +102,11 @@ def scan():
     #print(result)
     data = urllib.parse.urlencode({'data' : result , 'token' : token})
     data = data.encode('ascii')
+<<<<<<< HEAD
     url = "http://jovial-acronym-186111.appspot.com/attendance/student"
+=======
+    url = "http://attendancetracker-group66.appspot.com/attendance/take"
+>>>>>>> e0ed9eb21d0cd325fe026e2f238b6eeab81af7d4
     with urllib.request.urlopen(url , data) as h:
         postMsg = h.read().decode('utf-8')
         #print(postMsg)

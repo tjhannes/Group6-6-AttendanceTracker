@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Parent;
 
 @Entity
 public class Attendance {
-	  @Parent Key<Attendance> theAttendance;
+	  @Parent Key<Guestbook> theAttendance;
 	  @Id public Long id;
 	  public String student_id;
 	  public int week_id;
@@ -27,7 +27,7 @@ public class Attendance {
 	  public Attendance(String student_id, int tutorial_group_id, int week_id, boolean presented) 
 	  {
 		  this();
-		  theAttendance = Key.create(Attendance.class, "attendance");
+		  theAttendance = Key.create(Guestbook.class, "attendance");
 		  this.student_id = student_id;
 		  this.tutorial_group_id = tutorial_group_id;
 		  this.week_id = week_id;

@@ -1,8 +1,8 @@
-<!-- Indices written at Sun, 26 Nov 2017 18:56:41 CET -->
+<!-- Indices written at Thu, 14 Dec 2017 17:18:17 CET -->
 
 <datastore-indexes>
 
-    <!-- Used 13 times in query history -->
+    <!-- Used 2 times in query history -->
     <datastore-index kind="Attendance" ancestor="true" source="auto">
         <property name="tutorial_group_id" direction="asc"/>
         <property name="date" direction="desc"/>

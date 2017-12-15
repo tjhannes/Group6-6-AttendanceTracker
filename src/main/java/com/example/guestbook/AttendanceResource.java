@@ -1,5 +1,6 @@
 package com.example.guestbook;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -17,7 +18,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 public class AttendanceResource extends ServerResource 
-{
+{	
 	@Post
 	public void takeAttendance(Representation entity) throws ResourceException
 	{
@@ -25,6 +26,21 @@ public class AttendanceResource extends ServerResource
 		String student_id = form.getFirstValue("student_id");
 		int group_id = -1;
 		int week_id = -1;
+		int tutor_code = -1;
+		
+		if(tryParseInt(form.getFirstValue("tutor_code")))
+		{
+			tutor_code = Integer.parseInt(form.getFirstValue("tutor_code"));
+			
+			if(tutor_code != 0000)
+			{
+	  			throw new ResourceException(404, "Invalid Tutor Code","");
+			}
+		}
+		else
+		{
+  			throw new ResourceException(404, "Invalid Tutor Code Input","");
+		}
 		
 		if(tryParseInt(form.getFirstValue("group_id")))
 		{
@@ -63,17 +79,24 @@ public class AttendanceResource extends ServerResource
 	@Get
 	public String listAllAttendances()
 	{
-		String allAttendances = "Attendances\n\n";
-	
-		int listingLimit = (getQuery().getValues("show_count")==null?0:Integer.parseInt(getQuery().getValues("show_count")));
-		String filterByGroup = getQuery().getValues("show_group_id");
+	    //ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Student.class).keys());
+	    //ObjectifyService.ofy().delete().keys(ObjectifyService.ofy().load().type(Attendance.class).keys());
+
+
 		List<Attendance> attendanceList;
-		if(filterByGroup != null)
+		int listingLimit = (getQuery().getValues("show_count")==null?0:Integer.parseInt(getQuery().getValues("show_count")));
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("Attendances");
+
+		if(getQuery().getValues("show_group_id") != null)
 		{
+			String filterByGroup = getQuery().getValues("show_group_id");
+			sb.append(" of Group "+filterByGroup+"\n\n");
 			attendanceList = ObjectifyService.ofy()
 	    	          .load()
 	    	          .type(Attendance.class)
-	    	          .ancestor(Key.create(Attendance.class, "attendance"))
+	    	          .ancestor(Key.create(Guestbook.class, "attendance"))
 	    	          .filter("tutorial_group_id", Integer.parseInt(filterByGroup))
 	    	          .order("-date")
 	    	          .limit(listingLimit)
@@ -81,27 +104,43 @@ public class AttendanceResource extends ServerResource
 		}
 		else
 		{
+			sb.append("\n\n");
 			attendanceList = ObjectifyService.ofy()
 	    	          .load()
 	    	          .type(Attendance.class)
-	    	          .ancestor(Key.create(Attendance.class, "attendance"))
+	    	          .ancestor(Key.create(Guestbook.class, "attendance"))
 	    	          .order("-date")
 	    	          .limit(listingLimit)
 	    	          .list();
 		}    	
+		
 
-    	for (ListIterator<Attendance> iter = attendanceList.listIterator(); iter.hasNext(); ) 
-    	{
-    	    Attendance element = iter.next();
-    	    allAttendances += "attendance_id: " + element.id + "\n";
-    	    allAttendances += "student_id: " + element.student_id + "\n";
-    	    allAttendances += "tutorial_group_id: " + element.tutorial_group_id + "\n";
-    	    allAttendances += "week_id: " + element.week_id + "\n";
-    	    allAttendances += "presented: " + element.presented + "\n";
-    	    allAttendances += "tutorial_info: " + element.tutorial_info + "\n\n";
-    	}
+		try
+		{
+			for (Attendance attendance : attendanceList) 
+	    	{
+	    		sb.append("attendance_id: ");
+	    		sb.append(attendance.id);
+	    		sb.append("\nstudent_id: ");
+	    		sb.append(attendance.student_id);
+	    		sb.append("\ntutorial_group_id: ");
+	    		sb.append(attendance.tutorial_group_id);
+	    		sb.append("\nweek_id: ");
+	    		sb.append(attendance.week_id);
+	    		sb.append("\npresented: ");
+	    		sb.append(attendance.presented);
+	    		sb.append("\ntutorial_info: ");
+	    		sb.append(attendance.tutorial_info);
+	    		sb.append("\n\n");
+	    	}
+		}
+		catch(Exception e)
+		{
+			sb.append(e.getMessage());
+		}
+		
 
-        return allAttendances;
+        return sb.toString();
 	}
 	
 	boolean tryParseInt(String value) 
