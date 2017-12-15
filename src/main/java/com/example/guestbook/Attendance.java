@@ -40,7 +40,7 @@ public class Attendance {
 					"Time: Tuesdays, 15:00 - 17:00 | Room: 01.011.018 | Tutor: Ehsan",
 					"Time: Wednesdays, 10:00 - 12:00 | Room: 00.011.038 | Tutor: Mohsen",
 					"Time: Wednesdays, 12:00 - 14:00 | Room: 01.011.018 | Tutor: Saahil"};
-		  this.tutorial_info = tutorialInfo[this.tutorial_group_id];
+		  this.tutorial_info = tutorialInfo[this.tutorial_group_id-1];
 	  }
 
 }
