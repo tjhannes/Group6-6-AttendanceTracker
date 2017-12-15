@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+    <item n1:id="@id/action_seeattendances" n1:orderInCategory="100" n1:title="See Attendances" n2:showAsAction="never"
+      xmlns:n1="http://schemas.android.com/apk/res/android" xmlns:n2="http://schemas.android.com/apk/res-auto" />
+    <item n3:id="@id/action_logout" n3:orderInCategory="100" n3:title="Logout" n4:showAsAction="never"
+      xmlns:n3="http://schemas.android.com/apk/res/android" xmlns:n4="http://schemas.android.com/apk/res-auto" />
+</menu>

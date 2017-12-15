@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout n1:layout_width="fill_parent" n1:layout_height="fill_parent" n2:layout_behavior="@string/appbar_scrolling_view_behavior"
+  xmlns:n1="http://schemas.android.com/apk/res/android" xmlns:n2="http://schemas.android.com/apk/res-auto">
+    <TextView n1:id="@id/helloText" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:text="Hello" n2:layout_constraintBottom_toBottomOf="parent" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintRight_toRightOf="parent" n2:layout_constraintTop_toTopOf="parent" n2:layout_constraintVertical_bias="0.032" />
+    <TextView n1:id="@id/errorText" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n2:layout_constraintBottom_toBottomOf="parent" n2:layout_constraintLeft_toLeftOf="parent" n2:layout_constraintRight_toRightOf="parent" n2:layout_constraintTop_toTopOf="parent" n2:layout_constraintVertical_bias="0.25" />
+    <Button n1:id="@id/qrButton" n1:layout_width="wrap_content" n1:layout_height="wrap_content" n1:layout_marginTop="70.0dip" n1:layout_marginBottom="393.0dip" n1:text="Get QR" n1:layout_marginStart="17.0dip" n1:layout_marginEnd="92.0dip" n2:layout_constraintBottom_toBottomOf="parent" n2:layout_constraintEnd_toEndOf="parent" n2:layout_constraintStart_toEndOf="@id/weekSpinner" n2:layout_constraintTop_toTopOf="parent" n2:layout_constraintVertical_bias="0.0" />
+    <Spinner n1:id="@id/weekSpinner" n1:visibility="visible" n1:layout_width="85.0dip" n1:layout_height="28.0dip" n1:layout_marginTop="70.0dip" n1:layout_marginBottom="404.0dip" n1:layout_marginStart="24.0dip" n1:layout_marginEnd="17.0dip" n2:layout_constraintBottom_toBottomOf="parent" n2:layout_constraintEnd_toStartOf="@id/qrButton" n2:layout_constraintStart_toStartOf="parent" n2:layout_constraintTop_toTopOf="parent" n2:layout_constraintVertical_bias="1.0" />
+    <LinearLayout n1:gravity="bottom" n1:id="@id/linearLayout" n1:layout_width="fill_parent" n1:layout_height="fill_parent">
+        <ImageView n1:id="@id/qrImageView" n1:layout_width="0.0dip" n1:layout_height="wrap_content" n1:layout_marginBottom="50.0dip" n1:layout_weight="0.8" n1:layout_alignParentBottom="false" n2:srcCompat="@color/cast_expanded_controller_ad_container_white_stripe_color" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,32 @@
+!!brut.androlib.meta.MetaInfo
+apkFileName: app-debug.apk
+compressionType: false
+doNotCompress:
+- arsc
+isFrameworkApk: false
+packageInfo:
+  forcedPackageId: '127'
+  renameManifestPackage: null
+sdkInfo:
+  minSdkVersion: '21'
+  targetSdkVersion: '26'
+sharedLibrary: false
+unknownFiles:
+  build-data.properties: '8'
+  protobuf.meta: '8'
+  error_prone/Annotations.gwt.xml: '8'
+  jsr305_annotations/Jsr305_annotations.gwt.xml: '8'
+  org/restlet/Component.xsd: '8'
+  org/restlet/data/agent.properties: '8'
+  org/restlet/service/accept-encoding.properties: '8'
+  org/restlet/service/accept.properties: '8'
+  third_party/java_src/error_prone/project/annotations/Annotations.gwt.xml: '8'
+  third_party/java_src/error_prone/project/annotations/Google_internal.gwt.xml: '8'
+usesFramework:
+  ids:
+  - 1
+  tag: null
+version: 2.3.0
+versionInfo:
+  versionCode: '1'
+  versionName: '1.0'
